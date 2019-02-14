@@ -9,7 +9,7 @@ bootstrap = Bootstrap(app)
 app.config.from_object(Config)
 
 client = MongoClient(app.config['MONGO_URL'], 27017)
-db = client[app.config['MONGOALCHEMY_DATABASE']]
+db = client[app.config['MONGO_DB_NAME']]
 
 
 from webapp import routes
