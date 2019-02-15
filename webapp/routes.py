@@ -9,6 +9,10 @@ def homepage():
     # Need to give link to view alerts of different statuses
     return render_template('homepage.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
 @app.route('/all')
 def all_alarms():
     docs = mongo_loader.loader("All")
