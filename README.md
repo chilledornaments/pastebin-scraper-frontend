@@ -26,7 +26,7 @@ The frontend provides a means to view and categorize (false alarm, match, unclas
 
 - Run `sudo systemctl daemon-reload`
 
-- You can now run the application
+- You can now run the application (`sudo systemctl start pbfe`)
 
 *Optional*
 
