@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="page-header">
+    <h1>All Pastebin Hits</h1>
+</div>
+
+{% if data %}
+
+<div class="container"> 
+    <div class="row">
+        {% for paste in data %}
+        <ul class="list-group"></ul>
+        {% if paste.FalseAlarm == "Maybe" %}
+            <li class="list-group-item-warning">{{ paste.Keyword }}</li>
+        {% elif paste.FalseAlarm == "True" %}
+            <li class="list-group-item-danger">{{ paste.Keyword }}</li>
+        {% elif paste.FalseAlarm == "False" %}
+            <li class="list-group-item-success">{{ paste.Keyword }}</li>
+        {% else %}
+            <li class="list-group-item-info">{{ paste.Keyword }}</li>
+        {% endif %}
+            <li class="list-group-item-info">{{ paste.Link }}</li>
+            <li class="list-group-item">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('update_record', id=paste.ID, status='False') }}" type="button" class="btn btn-success">False Positive</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('update_record', id=paste.ID, status='True') }}" type="button" class="btn btn-danger">Match</button>
+                </div>
+            </div>
+            </li>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        View Full Paste
+                        </button>
+                    </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            {{ paste.RawData}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% else %}
+
+No data returned
+
+{% endif %}
+
+{% endblock %}
