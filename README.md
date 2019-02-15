@@ -22,6 +22,7 @@ The frontend provides a means to view and categorize (false alarm, match, unclas
     - `app_files/pbfe.service` assume the user is named `pbscrape`
 
 - Move `app_files/pbfe.service` to `/etc/systemd/system/`
+    - If you do _not_ proxy this with NGINX/httpd/something else, change `127.0.0.1:5000` to `0.0.0.0:5000`
 
 - Run `sudo systemctl daemon-reload`
 
