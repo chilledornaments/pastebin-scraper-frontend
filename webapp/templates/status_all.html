@@ -11,6 +11,7 @@
 <div class="container"> 
     <div class="row">
         {% for paste in data %}
+        <!--paste = the _id value from Mongo-->
         <ul class="list-group">
         {% if data[paste].FalseAlarm == "Maybe" %}
             <li class="list-group-item-warning">Keyword: {{ data[paste].Keyword }}</li>
@@ -22,9 +23,8 @@
             <li class="list-group-item-info">Keyword: {{ data[paste].Keyword }}</li>
         {% endif %}
             <li class="list-group-item-info">Link: {{ data[paste].Link }}</li>
-        </ul>
-
-            
+        
+       
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
                     <a href='{{ url_for("update_record", id=paste, status="Miss") }}' type="button" class="btn btn-success">False Positive</a>
@@ -35,38 +35,24 @@
             </div>
             
             <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">View Full Paste</a>
+                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample{{ paste }}" role="button" aria-expanded="false" aria-controls="multiCollapseExample{{ paste }}">View Full Paste</a>
             </p>
             <div class="row">
                 <div class="col">
-                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="collapse" id="multiCollapseExample{{ paste }}">
                     <div class="card card-body">
                         {{ data[paste].RawData }}
                     </div>
                     </div>
                 </div>
             </div>
-<!--
-            <p>
-            <div id="accordion">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        View Full Paste
-                        </button>
-                    </h5>
-                    </div>
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
-                            {{ data[paste].RawData}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </p>
--->   
-        {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+    
+
+
         
 
 {% else %}
