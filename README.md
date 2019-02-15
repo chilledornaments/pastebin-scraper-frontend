@@ -21,6 +21,8 @@ The frontend provides a means to view and categorize (false alarm, match, unclas
 - Add a user for gunicorn to run as
     - `app_files/pbfe.service` assume the user is named `pbscrape`
 
+- Move `app_files/pbfe.service` to `/etc/systemd/system/`
+
 - Run `sudo systemctl daemon-reload`
 
 - You can now run the application
