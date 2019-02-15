@@ -1,4 +1,5 @@
 from webapp import client, db, app
+from bson.objectid import ObjectId
 
 def loader(alarm_status):
     coll = app.config['MONGO_COLLECTION']
@@ -22,7 +23,7 @@ def loader(alarm_status):
                 except KeyError:
                     FalseAlarm = "Maybe"
                     # Update this record right now
-                    updater(id, "Maybe")
+                    updater(ID, "Maybe")
                 response_json[ID] = {"Keyword": Keyword, "Link": Link, "RawData": RawData, "FalseAlarm": FalseAlarm}
         return response_json
 
@@ -32,7 +33,7 @@ def loader(alarm_status):
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)], limit=1)
+            query = db[coll].find({"FalseAlarm": "Maybe"}, sort=[('_id', -1)])
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
@@ -43,13 +44,13 @@ def loader(alarm_status):
                 response_json[ID] = {"Keyword": Keyword, "Link": Link, "RawData": RawData, "FalseAlarm": FalseAlarm}
         return response_json
 
-    elif alarm_status == "False":
-        pastes = db[coll].find({"FalseAlarm": "False"}, sort=[('_id', -1)]).distinct("PastebinLink")
+    elif alarm_status == "Miss":
+        pastes = db[coll].find({"FalseAlarm": "Miss"}, sort=[('_id', -1)])
 
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)], limit=1)
+            query = db[coll].find({"FalseAlarm": "Miss"}, sort=[('_id', -1)])
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
@@ -60,13 +61,13 @@ def loader(alarm_status):
                 response_json[ID] = {"Keyword": Keyword, "Link": Link, "RawData": RawData, "FalseAlarm": FalseAlarm}
         return response_json
 
-    elif alarm_status == "True":
-        pastes = db[coll].find({"FalseAlarm": "True"}, sort=[('_id', -1)]).distinct("PastebinLink")
+    elif alarm_status == "Match":
+        pastes = db[coll].find({"FalseAlarm": "Match"}, sort=[('_id', -1)]).distinct("PastebinLink")
 
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)], limit=1)
+            query = db[coll].find({"FalseAlarm": "Match"}, sort=[('_id', -1)])
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
@@ -79,11 +80,12 @@ def loader(alarm_status):
             
 def updater(ID, alarm_status):
     coll = app.config['MONGO_COLLECTION']
+
     try:
-        db[coll].update_one({'_id': ID}, {"$set": {"FalseAlarm": alarm_status}})
+        db[coll].update_one({"_id": ObjectId(ID)}, {"$set": {"FalseAlarm": alarm_status}})
+        #a = db[coll].find_one({"_id": ObjectId(ID)})
+        return "Successfully update ObjectID: {}".format(ID)
     except Exception as e:
         message = "An error has occurred updating the record\n\n:Error -- {}".format(str(e))
         return message
 
-
-    print('i')

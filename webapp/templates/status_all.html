@@ -11,48 +11,71 @@
 <div class="container"> 
     <div class="row">
         {% for paste in data %}
-        <ul class="list-group"></ul>
-        {% if paste.FalseAlarm == "Maybe" %}
-            <li class="list-group-item-warning">{{ paste.Keyword }}</li>
-        {% elif paste.FalseAlarm == "True" %}
-            <li class="list-group-item-danger">{{ paste.Keyword }}</li>
-        {% elif paste.FalseAlarm == "False" %}
-            <li class="list-group-item-success">{{ paste.Keyword }}</li>
+        <ul class="list-group">
+        {% if data[paste].FalseAlarm == "Maybe" %}
+            <li class="list-group-item-warning">Keyword: {{ data[paste].Keyword }}</li>
+        {% elif data[paste].FalseAlarm == "Match" %}
+            <li class="list-group-item-danger">Keyword: {{ data[paste].Keyword }}</li>
+        {% elif data[paste].FalseAlarm == "Miss" %}
+            <li class="list-group-item-success">Keyword: {{ data[paste].Keyword }}</li>
         {% else %}
-            <li class="list-group-item-info">{{ paste.Keyword }}</li>
+            <li class="list-group-item-info">Keyword: {{ data[paste].Keyword }}</li>
         {% endif %}
-            <li class="list-group-item-info">{{ paste.Link }}</li>
-            <li class="list-group-item">
+            <li class="list-group-item-info">Link: {{ data[paste].Link }}</li>
+        </ul>
+
+            
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
-                    <a href="{{ url_for('update_record', id=paste.ID, status='False') }}" type="button" class="btn btn-success">False Positive</button>
+                    <a href='{{ url_for("update_record", id=paste, status="Miss") }}' type="button" class="btn btn-success">False Positive</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <a href="{{ url_for('update_record', id=paste.ID, status='True') }}" type="button" class="btn btn-danger">Match</button>
+                    <a href='{{ url_for("update_record", id=paste, status="Match") }}' type="button" class="btn btn-danger">Match</a>
                 </div>
             </div>
-            </li>
+            
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">View Full Paste</a>
+            </p>
+            <div class="row">
+                <div class="col">
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                        {{ data[paste].RawData }}
+                    </div>
+                    </div>
+                </div>
+            </div>
+<!--
+            <p>
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         View Full Paste
                         </button>
                     </h5>
                     </div>
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            {{ paste.RawData}}
+                            {{ data[paste].RawData}}
                         </div>
                     </div>
                 </div>
             </div>
+            </p>
+-->   
+        {% endfor %}
+        
 
 {% else %}
 
 No data returned
 
+
 {% endif %}
+
+
 
 {% endblock %}

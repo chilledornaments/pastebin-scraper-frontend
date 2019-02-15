@@ -11,24 +11,24 @@ def homepage():
 @app.route('/all')
 def all_alarms():
     docs = mongo_loader.loader("All")
-    return "Hello world"
+    return render_template('status_all.html', data=docs)
 
-@app.route('/inactioned')
+@app.route('/unclassified')
 def unsure_alarms():
     docs = mongo_loader.loader("Maybe")
-    return "hello world"
+    return render_template('maybe.html', data=docs)
 
 @app.route('/false_alarms')
 def false_alarms():
-    docs = mongo_loader.loader("False")
-    return "hello world"
+    docs = mongo_loader.loader("Miss")
+    return render_template('miss.html', data=docs)
 
 @app.route('/confirmed_alarms')
 def confirmed_alarms():
-    docs = mongo_loader.loader("True")
-    return "hello world"
+    docs = mongo_loader.loader("Match")
+    return render_template('match.html', data=docs)
 
-@app.route('/update_record')
+@app.route('/update/<id>/<status>')
 def update_record(id, status):
     docs = mongo_loader.updater(id, status)
-    return render_template('updating.html')
+    return render_template('updating.html', message=docs)

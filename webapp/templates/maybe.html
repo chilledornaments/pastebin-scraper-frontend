@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="page-header">
+    <h1>Unclassified Hits</h1>
+</div>
+
+{% if data %}
+
+<div class="container"> 
+    <div class="row">
+        {% for paste in data %}
+        <ul class="list-group">
+            <li class="list-group-item-info">Keyword: {{ data[paste].Keyword }}</li>
+            <li class="list-group-item-info">Link: {{ data[paste].Link }}</li>
+        </ul>
+            
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">View Full Paste</a>
+            </p>
+            <div class="row">
+                <div class="col">
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                        {{ data[paste].RawData }}
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        
+
+{% else %}
+
+No data returned
+
+
+{% endif %}
+
+
+
+{% endblock %}
