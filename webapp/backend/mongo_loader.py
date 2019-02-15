@@ -84,7 +84,7 @@ def updater(ID, alarm_status):
     try:
         db[coll].update_one({"_id": ObjectId(ID)}, {"$set": {"FalseAlarm": alarm_status}})
         #a = db[coll].find_one({"_id": ObjectId(ID)})
-        return "Successfully update ObjectID: {}".format(ID)
+        return "Successfully updated ObjectID: {}".format(ID)
     except Exception as e:
         message = "An error has occurred updating the record\n\n:Error -- {}".format(str(e))
         return message
