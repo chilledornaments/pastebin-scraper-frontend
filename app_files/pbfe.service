@@ -1,0 +1,10 @@
+[Unit]
+Description=gunicorn for Pastebin Scraper Frontend
+After=network.target
+
+[Service]
+User=pbscrape
+Group=pbscrape
+WorkingDirectory=/opt/pastebin-scraper-frontend
+Environment="PATH=$PATH:/opt/pastebin-scraper-frontend/"
+ExecStart=/usr/local/bin/gunicorn --workers 5 -b 127.0.0.1:5000 main:app
