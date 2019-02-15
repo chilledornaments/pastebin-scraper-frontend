@@ -1,6 +1,7 @@
 from webapp import app
 from webapp.backend import mongo_loader
-from flask import render_template, request, send_from_directory
+from flask import render_template, request, send_from_directory, flash, redirect, url_for
+from werkzeug.urls import url_parse
 import json, os
 
 @app.route('/')
@@ -31,4 +32,5 @@ def confirmed_alarms():
 @app.route('/update/<id>/<status>')
 def update_record(id, status):
     docs = mongo_loader.updater(id, status)
-    return render_template('updating.html', message=docs)
+    flash(docs)
+    return redirect(request.referrer)
