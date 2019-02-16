@@ -18,17 +18,30 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('homepage') }}">Home</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('all_alarms') }}">All Statuses</a></li>
-                <li><a href="{{ url_for('unsure_alarms') }}">Unclassified</a></li>
-                <li><a href="{{ url_for('false_alarms') }}">False Alarms</a></li>
-                <li><a href="{{ url_for('confirmed_alarms') }}">Matches</a></li>
-            </ul>
-
+                </button>
+                <a class="navbar-brand" href="{{ url_for('homepage') }}">Home</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('all_alarms') }}">All Statuses</a></li>
+                    <li><a href="{{ url_for('unsure_alarms') }}">Unclassified</a></li>
+                    <li><a href="{{ url_for('false_alarms') }}">False Alarms</a></li>
+                    <li><a href="{{ url_for('confirmed_alarms') }}">Matches</a></li>
+                    <li>
+                    <div class="dropdown" style="padding-top: 7px;">
+                        <a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Filter Keywords
+                        <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            {% for term in terms %}
+                        <li><a href="{{ url_for('filtered_search', kw=term) }}">{{ term }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
         {% endblock %}

@@ -4,6 +4,11 @@ from flask import render_template, request, send_from_directory, flash, redirect
 from werkzeug.urls import url_parse
 import json, os
 
+@app.context_processor
+def get_all_keywords():
+    terms = mongo_loader.get_keywords()
+    return dict(terms=terms)
+
 @app.route('/')
 def homepage():
     # Need to give link to view alerts of different statuses
@@ -38,3 +43,8 @@ def update_record(id, status):
     docs = mongo_loader.updater(id, status)
     flash(docs)
     return redirect(request.referrer)
+
+@app.route('/filter/<kw>')
+def filtered_search(kw):
+    docs = mongo_loader.filtered_search(kw)
+    return render_template('filtered.html', data=docs, kw=kw)

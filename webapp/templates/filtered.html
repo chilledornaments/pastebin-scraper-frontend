@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<div class="page-header">
+    <h1>Results for {{ kw }}</h1>
+</div>
+
+{% if data %}
+
+<div class="container"> 
+    <div class="row">
+        {% for paste in data %}
+        <ul class="list-group">
+            <li class="list-group-item-info">Keyword: {{ data[paste].Keyword }}</li>
+            <li class="list-group-item-info">Link: {{ data[paste].Link }}</li>
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a href='{{ url_for("update_record", id=paste, status="Miss") }}' type="button" class="btn btn-success">False Positive</a>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a href='{{ url_for("update_record", id=paste, status="Match") }}' type="button" class="btn btn-danger">Match</a>
+                    </div>
+                </div>
+                
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample{{ data[paste].ID }}" role="button" aria-expanded="false" aria-controls="multiCollapseExample{{ paste }}">View Full Paste</a>
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse" id="multiCollapseExample{{ data[paste].ID }}">
+                        <div class="card card-body">
+                            {{ data[paste].RawData }}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+          
+
+{% else %}
+
+No data returned
+
+
+{% endif %}
+
+
+
+{% endblock %}
