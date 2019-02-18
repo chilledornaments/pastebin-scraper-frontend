@@ -112,9 +112,9 @@ def updater(ID, alarm_status):
     coll = app.config['MONGO_COLLECTION']
 
     try:
-        query = db[coll].find({"_id": ObjectId(ID)}, limit=1)
-                
-        Link = query['PastebinLink']
+        oid_query = db[coll].find({"_id": ObjectId(ID)}, limit=1)
+        for q in oid_query:  
+            Link = q['PastebinLink']
 
         query = db[coll].find({"PastebinLink": Link})
 
