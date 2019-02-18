@@ -112,7 +112,16 @@ def updater(ID, alarm_status):
     coll = app.config['MONGO_COLLECTION']
 
     try:
-        db[coll].update_one({"_id": ObjectId(ID)}, {"$set": {"FalseAlarm": alarm_status}})
+        query = db[coll].find({"_id": ObjectId(ID)}, limit=1)
+                
+        Link = query['PastebinLink']
+
+        query = db[coll].find({"PastebinLink": Link})
+
+        for q in query:
+            OID = q['_id']
+
+            db[coll].update({"_id": ObjectId(OID)}, {"$set": {"FalseAlarm": alarm_status}})
         #a = db[coll].find_one({"_id": ObjectId(ID)})
         return "Successfully updated ObjectID: {}".format(ID)
     except Exception as e:
