@@ -38,7 +38,7 @@ def loader(alarm_status):
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"FalseAlarm": "Maybe"}, sort=[('_id', -1)])
+            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)])
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
@@ -55,7 +55,7 @@ def loader(alarm_status):
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"FalseAlarm": "Miss"}, sort=[('_id', -1)], limit=1)
+            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)], limit=1)
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
@@ -72,7 +72,7 @@ def loader(alarm_status):
         response_json = {}
 
         for paste in pastes:
-            query = db[coll].find({"FalseAlarm": "Match"}, sort=[('_id', -1)], limit=1)
+            query = db[coll].find({"PastebinLink": paste}, sort=[('_id', -1)], limit=1)
             for q in query:
                 ID = q['_id']
                 Keyword = q['Keyword']
